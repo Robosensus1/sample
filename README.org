@@ -1,0 +1,119 @@
+* FAQ-chatbot-for-energym
+
+[[https://travis-ci.org/yafeunteun/FAQ-chatbot-for-energym][file:https://travis-ci.org/yafeunteun/FAQ-chatbot-for-energym.svg?branch=master]]
+[[https://heroku.com/deploy?template=https://github.com/yafeunteun/FAQ-chatbot-for-energym/tree/master][file:https://www.herokucdn.com/deploy/button.svg]]
+
+#+BEGIN_QUOTE
+FAQ Chatbot for Energym, this implementation uses the RASA-NLU library in Python.
+#+END_QUOTE
+
+
+#+CAPTION: output example
+#+ATTR_HTML: :align center
+#+NAME:   fig:chatbot
+[[./img/chatbot.png]]
+
+
+
+** Temp useful commands 
+
+
+*** Training on dialogs 
+
+#+BEGIN_SRC sh
+python train.py --dial
+#+END_SRC
+
+Equivalent to: 
+#+BEGIN_SRC sh
+python -m rasa_core.train -d domain.yml -s stories.md -o models/dialogue
+#+END_SRC
+
+*** Training on NLU
+
+#+BEGIN_SRC sh
+python train.py --nlu
+#+END_SRC
+
+Equivalent to:
+#+BEGIN_SRC sh
+python -m rasa_nlu.train -c nlu_config.yml --data nlu.md -o models --fixed_model_name nlu --project current --verbose
+#+END_SRC
+
+*** Start server
+#+BEGIN_SRC sh
+python -m rasa_core.run -d models/dialogue -u models/current/nlu     --port 5002 --credentials credentials.yml
+#+END_SRC
+
+
+
+** Training the model 
+
+This task is required to generate the model. It must be performed the first time (the model is not version controled) and 
+everytime the training set (aka =nlu.md=) is edited.
+
+
+From the main directory (where this readme is located):
+#+BEGIN_SRC sh
+python -m rasa_nlu.train -c nlu_config.yml --data nlu.md -o models --fixed_model_name nlu --project current --verbose
+#+END_SRC
+
+If everything worked as expected the following structure should have been created: 
+#+BEGIN_SRC sh
+models
+└── current
+    └── nlu
+        ├── ... many files here ...
+#+END_SRC
+
+
+** Start NLU Agent (server)
+
+From this directory: 
+
+#+BEGIN_SRC sh
+python -m rasa_nlu.server --path models
+#+END_SRC
+
+=Note:= default port 5000 can be modified with =--port N= option with =N= the desired port.
+
+
+** Test using =cURL= 
+
+
+#+BEGIN_SRC sh
+curl -X POST localhost:5000/parse -d '{"q":"Hello Bot", "project":"current", "model":"nlu"}' | python -m json.tool
+#+END_SRC
+
+Answer format: 
+
+#+BEGIN_SRC sh
+{
+    "intent": {
+        "name": "greet",
+        "confidence": 0.9617286920547485
+    },
+    "entities": [],
+    "intent_ranking": [
+        {
+            "name": "greet",
+            "confidence": 0.9617286920547485
+        },
+        {
+            "name": "thankyou",
+            "confidence": 0.0044258832931518555
+        },
+        {
+            "name": "get_hours",
+            "confidence": 0.0
+        },
+        {
+            "name": "get_services",
+            "confidence": 0.0
+        }
+    ],
+    "text": "Hello Bot",
+    "project": "current",
+    "model": "nlu"
+}
+#+END_SRC

@@ -1,0 +1,6 @@
+{
+  "name": "FAQ Chatbot",
+  "description": "A barebones FAQ chatbot using RASA NLU and Tensorflow",
+    "repository": "https://github.com/yafeunteun/FAQ-chatbot-for-energym",
+    "keywords": ["rasa", "python", "nlu", "nlp", "tensorflow"]
+}

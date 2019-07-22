@@ -1,0 +1,12 @@
+language: python
+python:
+  - "3.6"
+install:
+  - pip install pytest
+  - pip install -r requirements.txt  # Add me to install python-coveralls
+before_script:
+  - python test/generate_tests.py > test_integration.py
+script:
+  - python -m rasa_nlu.train -c nlu_config.yml --data nlu.md -o models --fixed_model_name nlu --project current --verbose
+  - python -m rasa_nlu.server --path models --port 5000 &
+  - py.test --verbose

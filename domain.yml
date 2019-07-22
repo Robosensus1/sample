@@ -1,0 +1,49 @@
+intents:
+  - greet
+  - get_hours
+  - get_services
+  - thankyou
+  - get_meal_plan
+  - get_training_plan
+
+actions:
+  - utter_greet_infos
+  - utter_greet_train
+  - utter_get_hours
+  - utter_get_services
+  - utter_thankyou
+  - utter_get_meal_plan
+  - utter_get_training_plan
+
+
+templates:
+  utter_greet_infos:
+  - text: "Bonjour, bienvenue chez Energym! Je peux vous renseigner sur les horaires et les services proposes."
+    buttons:
+    - title: "horaires ⏰"
+      payload: "horaires d'ouverture"
+    - title: "services 💪"
+      payload: "quels sont vos services"
+
+  utter_greet_train:
+  - text: "Je peux egalement vous proposer des programmes d'entrainement et des plans de menus."
+    buttons:
+    - title: "menu 🍽"
+      payload: "je veux un plan de menus"
+    - title: "programme 📈"
+      payload: "je veux un programme d'entrainement"
+
+  utter_get_hours:
+  - text: "Nous sommes ouverts tous les jours de 06:00 à 23:00."
+  
+  utter_get_services:
+  - text: "Bénéficiez de l'accompagnement de nos Coachs pour atteindre vos objectifs et les dépasser (Perte de poids, Prise de masse ou Performance...)\nPour cela prenez rendez-vous ici https://www.facebook.com/pg/energym63sport/services/"
+
+  utter_thankyou:
+  - text: "Pas de quoi ;) A bientot!"
+
+  utter_get_meal_plan:
+  - text: "Notre partenaire Nutrimium vous propose des plans de menus sur mesure pour vous permettre d'atteindre vos objectifs rapidement! Rendez-vous sur https://nutrimium.com/prelaunch"
+
+  utter_get_training_plan:
+  - text: "Rendez-vous sur le site suivant pour choisir le programme qui vous convient https://bit.ly/2xEc3da, nos coachs seront la pour vous conseiller, n'hesitez pas :)"
